@@ -1,0 +1,146 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ull unsigned long long
+#define ll long long
+#define SZ 100005
+
+int MARK[SZ+1];
+vector<int>PRIME;
+
+void sieve(){
+    MARK[1]=1;
+    int root=sqrt(SZ);
+    for(int i=3; i<=root; i+=2){
+        if(!MARK[i]){
+            for(int j=i*i; j<=SZ; j+=(i*2)){
+                MARK[j]=1;
+            }
+        }
+    }
+    PRIME.push_back(2);
+    for(int i=3; i<=SZ; i+=2){
+        if(!MARK[i]) PRIME.push_back(i);
+    }
+    return;
+}
+
+//ll Mul(ll a, ll p, ll m){
+//    if(p==0) return 0;
+//    ll ret=Mul(a,p/2,m);
+//    ret=((ret%m)+(ret%m))%m;
+//    if(p&1) ret=((ret%m)+(a%m))%m;
+//
+//    return ret;
+//}
+ll Mul(ll a, ll b, ll m){
+    ll ret=0, c=a;
+    while(b){
+        if(b&1) ret=(ret+c)%m;
+        b>>=1; c=(c+c)%m;
+    }
+    return ret;
+}
+
+//ll bigmod(ll a, ll p, ll m){
+//    if(p==0) return 1;
+//    ll ret=bigmod(a,p/2,m);
+//    ret*=ret;
+//    if(p&1) ret*=a;
+//
+//    return ret;
+//}
+ll bigmod(ll a, ll n, ll m){
+    ll ret=1,c=a;
+    while(n){
+        if(n&1) ret=Mul(ret,c,m);
+        n>>=1; c=Mul(c,c,m);
+    }
+    return ret;
+}
+
+bool isprime(ll n){
+    if(n==2) return 1;
+    if(n%2==0) return 0;
+    ll d=n-1;
+    while(d%2==0) d>>=1;
+    int test[]={2,3,5,7,11,13,17,19,23};
+    for(int i=0; i<9; i++){
+        ll x=test[i]%(n-2), temp=d;
+        if(x<2) x+=2;
+        ll a=bigmod(x,d,n);
+        while(temp!=n-1 && a!=1 && a!=n-1){
+            a=Mul(a,a,n);
+            temp<<=1;
+        }
+        if(a!=n-1 && (temp&1)==0) return 0;
+    }
+    return 1;
+}
+
+ll pollard_rho(ll n, ll c){
+    ll x=2, y=2, i=1, k=2, d;
+    while(true){
+        x=(Mul(x,x,n)+c);
+        if(x>=n) x-=n;
+        d=__gcd(abs(x-y),n);
+        if(d>1) return d;
+        if(++i==k){
+            y=x, k<<=1;
+        }
+    }
+    return n;
+}
+
+ll llfactorize(ll n, ll ret){
+    if(n==1) return 1;
+    if(n < 1e9){
+        for(int i=0; PRIME[i]*PRIME[i] <= n; i++){
+            if(n%PRIME[i]==0){
+                ll cnt=0;
+                while(n%PRIME[i]==0){
+                    cnt++;
+                    n/=PRIME[i];
+                }
+                ret*=(cnt+1);
+            }
+        }
+        if(n!=1) ret*=2;
+        return ret;
+    }
+    if(isprime(n)){
+        ret*=(1+n);
+    }
+    ll d=n;
+    for(int i=2; d==n; i++){
+        d=pollard_rho(n,i);
+    }
+    llfactorize(d,ret);
+    llfactorize(n/d,ret);
+
+    return ret;
+}
+
+void solve(){
+    ll n;
+    cin>>n;
+    ll ans=llfactorize(n,1);
+    cout<<ans<<endl;
+}
+
+int main(){
+    ios::sync_with_stdio(0);
+    cin.tie(0); cout.tie(0);
+
+#ifndef ONLINE_JUDGE
+    //freopen("input.txt", "r", stdin);
+    //freopen("output.txt", "w", stdout);
+#endif
+    sieve();
+    int t=1,tc=1;
+    cin>>t;
+    while(t--){
+        solve();
+    }
+
+    return 0;
+}

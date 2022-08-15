@@ -1,0 +1,72 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ull unsigned long long
+#define ll long long
+ll a,b,n,x;
+
+void matmul(ll a[2][2], ll b[2][2]){
+    ll mul[2][2];
+    for(int i=0; i<2; i++){
+        for(int j=0; j<2; j++){
+            mul[i][j]=0;
+            for(int k=0; k<2; k++){
+                mul[i][j]=(mul[i][j]+(a[i][k]*b[k][j])%x)%x;
+            }
+        }
+    }
+    for(int i=0; i<2; i++){
+        for(int j=0; j<2; j++){
+            b[i][j]=mul[i][j];
+            //cout<<a[i][j]<<" ";
+        }
+        //cout<<endl;
+    }
+    return;
+}
+
+
+
+void find_ans(ll m[2][2],ll b[2][2], ll p){
+    while(p){
+        if(p&1) matmul(m,b);
+        matmul(m,m);
+        p/=2;
+    }
+    return;
+}
+
+
+void solve(){
+    cin>>a>>b>>n>>x;
+    x=pow(10,x);
+    ll base[2][2]={{b,0},{a,0}};
+    ll mat[2][2]={{1,1},{1,0}};
+    ll ans;
+    if(n==1) ans=b;
+    else if(n==0) ans=a;
+    else{
+        find_ans(mat,base,n-1);
+        ans=base[0][0]+base[0][1];
+    }
+     cout<<ans<<endl;
+
+    return;
+}
+
+int main(){
+    ios::sync_with_stdio(0);
+    cin.tie(0); cout.tie(0);
+
+#ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+#endif
+    int t, tc=1;
+    cin>>t;
+    while(t--){
+        cout<<"Case "<<tc++<<": ";
+        solve();
+    }
+    //solve();
+    return 0;
+}

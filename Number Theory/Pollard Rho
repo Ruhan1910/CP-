@@ -24,7 +24,7 @@ void sieve(){
     return;
 }
 
-//ll Mul(ll a, ll p, ll m){
+//ll Mul(ll a, ll p, ll m){//If we use recursive function for this part then CPU limit will be exit
 //    if(p==0) return 0;
 //    ll ret=Mul(a,p/2,m);
 //    ret=((ret%m)+(ret%m))%m;
@@ -91,41 +91,76 @@ ll pollard_rho(ll n, ll c){
     return n;
 }
 
-ll llfactorize(ll n, ll ret){
-    if(n==1) return 1;
+void llfactorize(ll n, vector<ll> &f){
+    if(n==1) return;
     if(n < 1e9){
         for(int i=0; PRIME[i]*PRIME[i] <= n; i++){
             if(n%PRIME[i]==0){
-                ll cnt=0;
                 while(n%PRIME[i]==0){
-                    cnt++;
+                    f.push_back(PRIME[i]);
                     n/=PRIME[i];
                 }
-                ret*=(cnt+1);
             }
         }
-        if(n!=1) ret*=2;
-        return ret;
+        if(n!=1) f.push_back(n);
+        return;
     }
     if(isprime(n)){
-        ret*=(1+n);
-        return ret;
+        f.push_back(n);
+        return;
     }
     ll d=n;
     for(int i=2; d==n; i++){
         d=pollard_rho(n,i);
     }
-    llfactorize(d,ret);
-    llfactorize(n/d,ret);
+    llfactorize(d,f);
+    llfactorize(n/d,f);
+}
 
-    return ret;
+void factorize(ll n, vector<pair<ll,ll>> &ans){
+    vector<ll>v;
+    llfactorize(n,v);
+    if(v.size()==0) return;
+    sort(v.begin(), v.end());
+    ll a=v[0], b=1;
+    for(int i=1; i<v.size(); i++){
+        if(v[i]==v[i-1]) b++;
+        else{
+            ans.push_back({a,b});
+            a=v[i];
+            b=1;
+        }
+    }
+    ans.push_back({a,b});
+}
+
+ll phi(ll n, vector<pair<ll,ll>> &ans){
+    ll ph=n;
+    for(auto i:ans){
+        ph/=i.first;
+        ph*=(i.first-1);
+    }
+    return ph;
 }
 
 void solve(){
-    ll n;
+    ll n,ans;
     cin>>n;
-    ll ans=llfactorize(n,1);
-    cout<<ans<<endl;
+    vector<pair<ll,ll>>v;
+    factorize(n,v);
+    ll phi_n=phi(n,v);
+
+    ll b=n+1;
+    while(1){
+        vector<pair<ll,ll>>vv;
+        factorize(b,vv);
+        ll phi_b=phi(b,vv);
+        if(phi_b>phi_n){
+            cout<<b<<endl;
+            break;
+        }
+        b++;
+    }
 }
 
 int main(){

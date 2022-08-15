@@ -2,7 +2,7 @@
 using namespace std;
 #define ull unsigned long long
 #define ll long long
-#define SZ 100005
+#define SZ 1000005
 
 int MARK[SZ+1];
 vector<int>PRIME;
@@ -109,6 +109,7 @@ ll llfactorize(ll n, ll ret){
     }
     if(isprime(n)){
         ret*=(1+n);
+        return ret;
     }
     ll d=n;
     for(int i=2; d==n; i++){

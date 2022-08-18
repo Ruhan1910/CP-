@@ -1,5 +1,5 @@
 //Link-https://www.hackerrank.com/challenges/longest-increasing-subsequent/problem
-
+//time complexity O(nlogn)
 
 #include<bits/stdc++.h>
 using namespace std;

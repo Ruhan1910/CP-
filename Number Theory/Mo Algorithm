@@ -1,0 +1,99 @@
+problem link- https://www.hackerrank.com/contests/gub-idpc-2022/challenges/frequency-xor/copy-from/1347288030
+
+
+#include<bits/stdc++.h>
+using namespace std;
+#define ull unsigned long long
+#define ll long long
+#define pii pair<int,int>
+#define MAX 1000005
+
+
+int arr[MAX],cnt[MAX], ans[MAX];
+int n,q,block_size,ansr=0;
+pair<pii,int>qry[MAX];
+
+bool cmp(pair<pii,int>x,pair<pii,int>y){
+    int xx=x.first.first/block_size;
+    int yy=y.first.first/block_size;
+    if(xx!=yy) return xx<yy;
+    return x.first.second<y.first.second;
+}
+
+void add(int x){
+    if(cnt[x]==0){
+        ansr^=1;
+        cnt[x]++;
+    }
+    else{
+        ansr^=cnt[x];
+        cnt[x]++;
+        ansr^=cnt[x];
+    }
+}
+void Remove(int x){
+    ansr^=cnt[x];
+    cnt[x]--;
+    ansr^=cnt[x];
+}
+
+void solve2(){
+    int l=0, r=-1;
+    set<int>s;
+    for(int i=0; i<q; i++){
+        int lp=qry[i].first.first;
+        int rp=qry[i].first.second;
+
+        while(r<rp){
+            r++;
+            add(arr[r]);
+        }
+        while(r>rp){
+            Remove(arr[r]);
+            r--;
+        }
+        while(l<lp){
+            Remove(arr[l]);
+            l++;
+        }
+        while(l>lp){
+            l--;
+            add(arr[l]);
+        }
+        ans[qry[i].second]=ansr;
+    }
+
+    for(int i=0; i<q; i++)
+        cout<<ans[i]<<endl;
+}
+
+void solve(){
+    cin>>n;
+    for(int i=1; i<=n; i++) cin>>arr[i];
+    cin>>q;
+    for(int i=0; i<q; i++){
+        int x,y; cin>>x>>y;
+        qry[i].first.first=x;
+        qry[i].first.second=y;
+        qry[i].second=i;
+    }
+    block_size=sqrt(n);
+    sort(qry,qry+q,cmp);
+
+    solve2();
+
+    return;
+}
+
+int main(){
+    ios::sync_with_stdio(0);
+    cin.tie(0); cout.tie(0);
+
+    int t=1,tc=1;
+    //cin>>t;
+    while(t--){
+        solve();
+    }
+
+    return 0;
+}

@@ -1,0 +1,22 @@
+//Here normally we will prime factorize that number and find the sod
+
+ll SOD(ll a){
+    ll root=sqrt(a), ret=1;
+    for(ll i=0; i<PRIME.size() && PRIME[i]<=root; i++){
+        ll x=PRIME[i];
+        if(a%x==0){
+            ll cnt=0;
+            while(a%x==0){
+                cnt++;
+                a/=x;
+            }
+            root=sqrt(a);
+            ret*=((power(x,(cnt+1))-1)/(x-1));
+        }
+
+    }
+    if(a>1){
+        ret*=((power(a,2)-1)/(a-1));
+    }
+    return ret;
+}

@@ -1,0 +1,31 @@
+//In the previous approach sometimes if the last remaining prime number is very big then
+//if we want to calculate 
+        if(a>1){
+            ret*=((power(a,2)-1)/(a-1));
+        }
+//then an overflow will occure and we will get a wrong ans in that case if we want to 
+//avoid this overflow then we need to use this code or only change the last condition
+//main concept is we know 1+a+a^2+a^3+....+a^n=(a^(n+1)-1)/(a-1) so here instead of
+//(a^(n+1)-1)/(a-1) this formula we use 1+a+a^2+a^3+....+a^n this.
+
+ll SOD(ll a){
+    ll root=sqrt(a), ret=1;
+    for(ll i=0; i<PRIME.size() && PRIME[i]<=root; i++){
+        ll x=PRIME[i];
+        if(a%x==0){
+            ll cursum=1, p=1;
+            while(a%x==0){
+                p*=x;
+                cursum+=p;
+                a/=x;
+            }
+            root=sqrt(a);
+            ret*=cursum;
+        }
+
+    }
+    if(a>1){
+        ret*=(1+a);
+    }
+    return ret;
+}

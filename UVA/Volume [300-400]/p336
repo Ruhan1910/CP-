@@ -1,0 +1,68 @@
+//problem link - https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=272
+
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long
+
+int e,n,tc=1;
+bool vis[100];
+int lev[100];
+vector<int>graph[100];
+
+int bfs(int s, int d){
+    queue<int>q;
+    q.push(s);
+    vis[s]=1;
+    lev[s]=0;
+    int ret=1;
+    while(!q.empty()){
+        int v=q.front();
+        q.pop();
+        for(auto u:graph[v]){
+            if(!vis[u]){
+                q.push(u);
+                vis[u]=1; lev[u]=lev[v]+1;
+                if(lev[u]<=d) ret++;
+            }
+        }
+    }
+    return ret;
+}
+
+void solve(){
+    while(cin>>e && e){
+        for(int i=0; i<100; i++) graph[i].clear();
+        n=1;
+        map<int,int>mp;
+        for(int i=0; i<e; i++){
+            int x,y; cin>>x>>y;
+            if(mp[x]==0) mp[x]=n++;
+            if(mp[y]==0) mp[y]=n++;
+            x=mp[x]; y=mp[y];
+
+            graph[x].push_back(y);
+            graph[y].push_back(x);
+            //cout<<x<<" "<<y<<endl;
+        }
+        int s,d; n--;
+        while(cin>>s>>d && (s+d)){
+            memset(vis,0,sizeof(vis));
+            memset(lev,0,sizeof(lev));
+            int x=s; s=mp[s];
+            //cout<<s<<" "<<d<<endl;
+            cout<<"Case "<<tc++<<": "<<n-bfs(s,d)<<" nodes not reachable from node "<<x<<" with TTL = "<<d<<"."<<endl;
+        }
+    }
+}
+
+
+int main(){
+    //iofile();
+    ll t=1, tc=1;
+    //cin>>t;
+    while(t--){
+        //cout<<"Case "<<tc++<<": ";
+        solve();
+    }
+    return 0;
+}

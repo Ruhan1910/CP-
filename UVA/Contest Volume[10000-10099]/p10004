@@ -1,0 +1,58 @@
+//Problem link - https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=945
+
+#include<bits/stdc++.h>
+using namespace std;
+const int N=1e6+5;
+
+vector<int>graph[N];
+int vis[N];
+int col[N];
+
+bool BFS(int s){
+    vis[s]=1;
+    col[s]=1;
+    queue<int>q;
+    q.push(s);
+
+    while(!q.empty()){
+        int v=q.front(); q.pop();
+        for(auto u:graph[v]){
+            if(!vis[u]){
+                vis[u]=1;
+                col[u]=(col[v]==1)?2:1;
+                q.push(u);
+            }
+            if(col[u]==col[v]) return false;
+        }
+    }
+    return true;
+}
+
+void solve(){
+    int n;
+    while(cin>>n && n){
+        memset(vis,0,sizeof(vis));
+        memset(col,0,sizeof(col));
+        memset(graph,0,sizeof(graph));
+        int e; cin>>e;
+        for(int i=0; i<e; i++){
+            int x, y; cin>>x>>y;
+            graph[x].push_back(y);
+            graph[y].push_back(x);
+        }
+        bool flag=BFS(0);
+        if(flag) cout<<"BICOLORABLE."<<endl;
+        else cout<<"NOT BICOLORABLE."<<endl;
+    }
+
+}
+
+int main(){
+    freopen("input.txt","r",stdin);
+    freopen("output.txt","w",stdout);
+    int t=1;
+    //cin>>t;
+    while(t--){
+        solve();
+    }
+}

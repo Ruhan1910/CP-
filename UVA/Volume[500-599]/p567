@@ -1,0 +1,75 @@
+#include<bits/stdc++.h>
+#define endl '\n'
+using namespace std;
+const int N=100;
+
+vector<int>graph[N];
+bool vis[N];
+int dis[N];
+
+void BFS(int s){
+    vis[s]=1;
+    dis[s]=0;
+    queue<int>q;
+    q.push(s);
+
+    while(!q.empty()){
+        int v=q.front(); q.pop();
+        for(auto u:graph[v]){
+            if(!vis[u]){
+                vis[u]=1;
+                dis[u]=dis[v]+1;
+                q.push(u);
+            }
+        }
+    }
+}
+
+void solve(){
+    int n, tc=1;
+    while(cin>>n){
+        if(tc>1) cout<<endl;
+
+        memset(graph,0,sizeof(graph));
+        for(int i=0; i<n; i++){
+            int x; cin>>x;
+            graph[1].push_back(x);
+            graph[x].push_back(1);
+        }
+        for(int i=2; i<=19; i++){
+            cin>>n;
+            for(int j=0; j<n; j++){
+                int x; cin>>x;
+                graph[i].push_back(x);
+                graph[x].push_back(i);
+            }
+        }
+        int q; cin>>q;
+        cout<<"Test Set #"<<tc++<<endl;
+
+        while(q--){
+            int s,e; cin>>s>>e;
+            memset(vis,0,sizeof(vis));
+            //memset(dis,0,sizeof(dis));
+            BFS(s);
+            //cout<<s<<" to "<<e<<": "<<dis[e]<<endl;
+            if(s<10) cout<<" ";
+            cout<<s<<" to ";
+            if(e<10) cout<<" ";
+            cout<<e<<": ";
+            //if(dis[e]<10) cout<<" ";
+            cout<<dis[e]<<endl;
+        }
+    }
+    cout<<endl;
+}
+
+int main(){
+    freopen("input.txt","r",stdin);
+    freopen("output.txt","w",stdout);
+    int t=1;
+    //cin>>t;
+    while(t--){
+        solve();
+    }
+}

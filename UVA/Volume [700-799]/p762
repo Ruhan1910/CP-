@@ -1,0 +1,95 @@
+//Problem Link - https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=703
+
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long
+const int N=1e6+5;
+int e;
+bool vis[N];
+int parrent[N];
+vector<int>graph[N];
+
+
+bool valid(int x, int y){
+    return (x>=0 && x<8 && y>=0 && y<8);
+}
+
+void BFS(int s){
+    vis[s]=1;
+    parrent[s]=s;
+    queue<int>q;
+    q.push(s);
+
+    while(!q.empty()){
+        int v=q.front(); q.pop();
+
+        for(auto u:graph[v]){
+            if(!vis[u]){
+                vis[u]=1;
+                parrent[u]=v;
+                q.push(u);
+            }
+        }
+    }
+}
+
+void solve(){
+    int tc=1;
+   while(cin>>e){
+        if(tc++>1) cout<<endl;
+       memset(graph,0,sizeof(graph));
+       memset(vis,0,sizeof(vis));
+       memset(parrent,-1,sizeof(parrent));
+       map<int,string>mp;
+       map<string,int>mp2;
+       int n=1;
+       while(e--){
+           string a,b; cin>>a>>b;
+           if(mp2[a]==0) mp2[a]=n++;
+           if(mp2[b]==0) mp2[b]=n++;
+
+           int x=mp2[a], y=mp2[b];
+           graph[x].push_back(y);
+           graph[y].push_back(x);
+
+           mp[x]=a; mp[y]=b;
+       }
+       string s,d; cin>>s>>d;
+       if(mp2[s]==0){
+          cout<<"No route"<<endl;
+          continue;
+       }
+
+       BFS(mp2[s]);
+
+       stack<pair<int,int>>st;
+       int x=mp2[d];
+       if(mp2[d]==0 || !vis[x]){
+          cout<<"No route"<<endl;
+          continue;
+       }
+       while(parrent[x]!=x){
+           st.push({parrent[x],x});
+           x=parrent[x];
+       }
+       while(!st.empty()){
+           pair<int,int>ss=st.top();
+           cout<<mp[ss.first]<<" "<<mp[ss.second]<<endl;
+           st.pop();
+       }
+   }
+}
+
+
+int main(){
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+
+    ll t=1, tc=1;
+    //cin>>t;
+    while(t--){
+        //cout<<"Case "<<tc++<<": ";
+        solve();
+    }
+    return 0;
+}

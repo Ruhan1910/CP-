@@ -1,0 +1,67 @@
+//Problem link - https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=380
+
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long
+
+string a,b;
+int fx[]={2,2,-2,-2,1,-1,1,-1};
+int fy[]={1,-1,1,-1,2,2,-2,-2};
+bool vis[10][10];
+int dis[10][10];
+
+
+bool valid(int x, int y){
+    return (x>=0 && x<8 && y>=0 && y<8);
+}
+
+void BFS(int x, int y){
+    vis[x][y]=1;
+    dis[x][y]=0;
+    queue<pair<int,int>>q;
+    q.push({x,y});
+
+    while(!q.empty()){
+        auto [cx,cy]=q.front();
+        q.pop();
+
+        for(int k=0; k<8; k++){
+            int tx=cx+fx[k];
+            int ty=cy+fy[k];
+            if(valid(tx,ty) && !vis[tx][ty]){
+                vis[tx][ty]=1;
+                dis[tx][ty]=dis[cx][cy]+1;
+                q.push({tx,ty});
+            }
+        }
+
+    }
+}
+
+void solve(){
+   while(cin>>a>>b){
+        memset(vis,0,sizeof(vis));
+        memset(dis,0,sizeof(dis));
+
+        int sx,sy,dx,dy;
+        sx=a[1]-'1'; sy=a[0]-'a';
+        dx=b[1]-'1'; dy=b[0]-'a';
+
+        BFS(sx,sy);
+        cout<<"To get from "<<a<<" to "<<b<<" takes "<<dis[dx][dy]<<" knight moves."<<endl;
+   }
+}
+
+
+int main(){
+    //freopen("input.txt","r",stdin);
+    //freopen("output.txt","w",stdout);
+
+    ll t=1, tc=1;
+    //cin>>t;
+    while(t--){
+        //cout<<"Case "<<tc++<<": ";
+        solve();
+    }
+    return 0;
+}

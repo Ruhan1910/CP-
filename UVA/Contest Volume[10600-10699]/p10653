@@ -1,0 +1,70 @@
+//Problem link - https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=1594
+
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long
+
+int r,c;
+int fx[]={1,-1,0,0};
+int fy[]={0,0,1,-1};
+bool vis[1005][1005];
+int dis[1005][1005];
+int graph[1005][1005];
+
+bool valid(int x, int y){
+    return (x>=0 && x<r && y>=0 && y<c);
+}
+
+void BFS(int x, int y){
+    vis[x][y]=1;
+    dis[x][y]=0;
+    queue<pair<int,int>>q;
+    q.push({x,y});
+
+    while(!q.empty()){
+        auto [cx,cy]=q.front();
+        q.pop();
+
+        for(int k=0; k<4; k++){
+            int tx=cx+fx[k];
+            int ty=cy+fy[k];
+            if(valid(tx,ty) && !vis[tx][ty]){
+                vis[tx][ty]=1;
+                dis[tx][ty]=dis[cx][cy]+1;
+                q.push({tx,ty});
+            }
+        }
+
+    }
+}
+
+void solve(){
+   while(cin>>r>>c && (r+c)){
+        memset(vis,0,sizeof(vis));
+        int x; cin>>x;
+        while(x--){
+            int R,n; cin>>R>>n;
+            for(int i=0; i<n; i++){
+                int C; cin>>C;
+                vis[R][C]=1;
+            }
+        }
+        int sx,sy,dx,dy; cin>>sx>>sy>>dx>>dy;
+        BFS(sx,sy);
+        cout<<dis[dx][dy]<<endl;
+   }
+}
+
+
+int main(){
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+
+    ll t=1, tc=1;
+    //cin>>t;
+    while(t--){
+        //cout<<"Case "<<tc++<<": ";
+        solve();
+    }
+    return 0;
+}

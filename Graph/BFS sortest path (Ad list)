@@ -1,0 +1,48 @@
+#include<bits/stdc++.h>
+using namespace std;
+const int N=1e6+5;
+
+vector<int>graph[N];
+bool vis[N];
+int lev[N];
+
+void BFS(int s){
+    vis[s]=1;
+    lev[s]=0;
+    queue<int>q;
+    q.push(s);
+
+    while(!q.empty()){
+        int v=q.front(); q.pop();
+        for(auto u:graph[v]){
+            if(!vis[u]){
+                lev[u]=lev[v]+1;
+                vis[u]=1;
+                q.push(u);
+            }
+        }
+    }
+}
+
+void solve(){
+    int n,e; cin>>n>>e;
+    for(int i=0; i<e; i++){
+        int x,y; cin>>x>>y;
+        graph[x].push_back(y);
+        graph[y].push_back(x);
+    }
+    BFS(0);
+
+    cout<<"Distance of node from source 0:"<<"\n";
+    for(int i=0; i<n; i++){
+        cout<<i<<" - "<<lev[i]<<endl;
+    }
+}
+
+int main(){
+    int t=1;
+    //cin>>t;
+    while(t--){
+        solve();
+    }
+}

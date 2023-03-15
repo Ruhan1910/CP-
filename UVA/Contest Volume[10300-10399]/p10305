@@ -1,0 +1,127 @@
+//problem link - https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=15&page=show_problem&problem=1246
+
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define ull unsigned long long
+#define pii pair<int,int>
+#define pll pair<ll,ll>
+#define vi vector<int>
+#define vl vector<ll>
+#define m_p make_pair
+#define pb push_back
+#define fi first
+#define sc second
+#define PI acos(-1.0)
+#define MOD 1000000007
+#define fastio std::ios_base::sync_with_stdio (false); cin.tie(0); cout.tie(0);
+#define Check(n,pos) (n & (1<<pos))
+#define Set(n,pos) (n  (1<<pos))
+ll PERFECT_NUM[]={6,28,496,8128,33550336,8589869056,137438691328,2305843008139952128};
+//-------------------------------------------------------------------
+#define SZ 1000005
+int MARK[SZ+1];
+vector<int>PRIME;
+
+void sieve(){
+    MARK[1]=1;
+    int root=sqrt(SZ);
+    MARK[0]=MARK[1]=1;
+    for(int i=4; i<SZ; i+=2) MARK[i]=1;
+    
+    for(int i=3; i<=root; i+=2){
+        if(!MARK[i]){
+            for(int j=i*i; j<=SZ; j+=(i*2)){
+                MARK[j]=1;
+            }
+        }
+    }
+    PRIME.push_back(2);
+    for(int i=3; i<=SZ; i+=2){
+        if(!MARK[i]) PRIME.push_back(i);
+    }
+    return;
+}
+
+ll gcd(ll a, ll b){
+    if(b==0) return a;
+    return gcd(b,a%b);
+}
+ll BigMod(ll a, ll p, ll m){
+    ll ret=1;
+    while(p){
+        if(p&1) ret=((ret%m)*(a%m))%m;
+        a=((a%m)*(a%m))%m;
+        p/=2;
+    }
+    return ret;
+}
+ll AddMul(ll a, ll p, ll m){
+    ll ret=0;
+    while(p){
+        if(p&1) ret=((ret%m)+(a%m))%m;
+        a=((a%m)+(a%m))%m;
+    }
+    return ret;
+}
+void iofile(){
+    #ifndef ONLINE_JUDGE
+        freopen("input.txt", "r", stdin);
+        freopen("output.txt", "w", stdout);
+    #endif
+}
+//--------------------------------------------------------------------
+vector<vector<int>>graph;
+bool vis[105];
+int n,e;
+stack<int>st;
+
+void dfs(int s){
+    vis[s]=1;
+    for(auto child:graph[s]){
+        if(!vis[child]) dfs(child);
+    }
+    st.push(s);
+}
+
+void topologicalsort(){
+    for(int i=1; i<=n; i++){
+        if(!vis[i]){
+            dfs(i);
+        }
+    }
+    while(!st.empty()){
+        cout<<st.top()<<" ";
+        st.pop();
+    }
+}
+
+void solve(){
+    while(cin>>n>>e){
+        if(n==0) break;
+        memset(vis,0,sizeof(vis));
+        graph.resize(n+1);
+        for(int i=0; i<e; i++){
+            int x,y; cin>>x>>y;
+            graph[x].push_back(y);
+        }
+        topologicalsort();
+        cout<<endl;
+    }
+}
+
+
+int main(){
+    //sieve();
+    fastio;
+    iofile();
+    ll t=1, tc=1;
+    //cin>>t;
+    //cin.ignore();
+    while(t--){
+        //cout<<"Case "<<tc++<<": ";
+        solve();
+    }
+
+    return 0;
+}

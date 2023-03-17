@@ -1,0 +1,138 @@
+problem link - https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=60
+
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define ull unsigned long long
+#define pii pair<int,int>
+#define pll pair<ll,ll>
+#define vi vector<int>
+#define vl vector<ll>
+#define m_p make_pair
+#define pb push_back
+#define fi first
+#define sc second
+#define PI acos(-1.0)
+#define MOD 1000000007
+#define fastio std::ios_base::sync_with_stdio (false); cin.tie(0); cout.tie(0);
+#define Check(n,pos) (n & (1<<pos))
+#define Set(n,pos) (n  (1<<pos))
+ll PERFECT_NUM[]={6,28,496,8128,33550336,8589869056,137438691328,2305843008139952128};
+//-------------------------------------------------------------------
+#define SZ 1000005
+int MARK[SZ+1];
+vector<int>PRIME;
+
+void sieve(){
+    MARK[1]=1;
+    int root=sqrt(SZ);
+    MARK[0]=MARK[1]=1;
+    for(int i=4; i<SZ; i+=2) MARK[i]=1;
+    
+    for(int i=3; i<=root; i+=2){
+        if(!MARK[i]){
+            for(int j=i*i; j<=SZ; j+=(i*2)){
+                MARK[j]=1;
+            }
+        }
+    }
+    PRIME.push_back(2);
+    for(int i=3; i<=SZ; i+=2){
+        if(!MARK[i]) PRIME.push_back(i);
+    }
+    return;
+}
+
+ll gcd(ll a, ll b){
+    if(b==0) return a;
+    return gcd(b,a%b);
+}
+ll BigMod(ll a, ll p, ll m){
+    ll ret=1;
+    while(p){
+        if(p&1) ret=((ret%m)*(a%m))%m;
+        a=((a%m)*(a%m))%m;
+        p/=2;
+    }
+    return ret;
+}
+ll AddMul(ll a, ll p, ll m){
+    ll ret=0;
+    while(p){
+        if(p&1) ret=((ret%m)+(a%m))%m;
+        a=((a%m)+(a%m))%m;
+    }
+    return ret;
+}
+void iofile(){
+    #ifndef ONLINE_JUDGE
+        freopen("input.txt", "r", stdin);
+        freopen("output.txt", "w", stdout);
+    #endif
+}
+//--------------------------------------------------------------------
+bool have[26];
+vector<int>graph[26];
+int indeg[26], n;
+
+void solvekoro(int cnt, string s){
+    if(cnt==n){
+        cout<<s<<endl;
+        return;
+    }
+    for(int i=0; i<26; i++){
+        if(have[i] && indeg[i]==0){
+            for(auto ii:graph[i]){
+                indeg[ii]--;
+            }
+            s.push_back(i+'a');
+            have[i]=0;
+            solvekoro(cnt+1,s);
+            for(auto ii:graph[i]){
+                indeg[ii]++;
+            }
+            s.pop_back();
+            have[i]=1;
+        }
+    }
+}
+
+void solve(){
+    string s;
+    int ok=0;
+    while(getline(cin,s)){
+        if(ok) cout<<endl;
+        ok=1;
+        n=0; 
+        memset(graph,0,sizeof(graph));
+        memset(indeg,0,sizeof(indeg));
+        memset(have,0,sizeof(have));
+
+        for(int i=0; i<s.size(); i+=2){
+            have[s[i]-'a']=1;
+            n++;
+        }
+        getline(cin,s);
+        for(int i=2; i<s.size(); i+=4){
+            indeg[s[i]-'a']++;
+            graph[s[i-2]-'a'].push_back(s[i]-'a');
+        }
+        solvekoro(0,"");
+    }
+}
+
+
+int main(){
+    //sieve();
+    fastio;
+    iofile();
+    ll t=1, tc=1;
+    //cin>>t;
+    //cin.ignore();
+    while(t--){
+        //cout<<"Case "<<tc++<<": ";
+        solve();
+    }
+
+    return 0;
+}

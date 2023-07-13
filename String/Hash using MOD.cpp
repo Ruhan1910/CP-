@@ -11,7 +11,7 @@ ll Fhash(int l, int r){
 }
 
 ll Rhash(int l, int r){
-    ll ret = RH[r]-(RH[l-1]*B[r-l+1])%MOD;
+    ll ret = RH[l]-(RH[r+1]*B[r-l+1])%MOD;
     if(ret<0) ret+=MOD;
     ret%=MOD;
     return ret;

@@ -1,3 +1,9 @@
+//This code can give some wa in corner case 
+//If 5th prefix hash value is 10 after mod and
+//6th prefix hash value is 5 after mod then Fhash function 
+//will return a negative value for that in some case
+//it will give wrong answer
+
 #include<bits/stdc++.h>
 using namespace std;
 #define ull unsigned long long

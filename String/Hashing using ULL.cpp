@@ -18,7 +18,7 @@ ull Fhash(int l, int r){
 }
 
 ull Rhash(int l, int r){
-    return RH[r]-(RH[l-1]*B[r-l+1]);
+    return RH[l]-(RH[r+1]*B[r-l+1]);
 }
 
 int main(){

@@ -2,8 +2,15 @@
 using namespace std;
 #define ll long long
 
+void iofile(){
+    #ifndef ONLINE_JUDGE
+        freopen("input.txt", "r", stdin);
+        freopen("output.txt", "w", stdout);
+    #endif
+}
+
 const int N = 1e5+10;
-ll tree[N], lazy[N];
+ll tree[4*N], lazy[4*N];
 vector<ll>arr;
 
 void relax(int node, int l, int r){
@@ -39,7 +46,7 @@ void build(int node, int lo, int hi){
     lazy[node] = 0;
 }
 
-void updateRange(int node, int lo, int hi, int l, int r, int val){
+void updateRange(int node, int lo, int hi, int l, int r, ll val){
     if(lazy[node]) relax(node, lo, hi);
     if(lo > r || hi < l) return;
     if(lo >= l && hi <= r){
@@ -66,10 +73,10 @@ ll query(int node, int lo, int hi, int l, int r){
     ll x = query(left, lo, mid, l, r);
     ll y = query(right, mid+1, hi, l, r);
 
-    queryMerge(x, y);
+    return queryMerge(x, y);
 }
 
-int main(){
+void solve(){
     int n, q; cin>>n>>q;
     arr.resize(n+1);
     for(int i = 1; i <= n; i++){
@@ -91,5 +98,14 @@ int main(){
             ll res = query(1, 1, n, l, r);
             cout<<res<<endl;
         }
+    }
+}
+
+int main(){
+    iofile();
+    int t = 1;
+    //cin>>t;
+    while(t--){
+        solve();
     }
 }

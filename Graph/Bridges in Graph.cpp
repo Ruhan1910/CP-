@@ -17,13 +17,13 @@ void iofile(){
 const int N = 1e5 + 5;
 vector<vector<int>>adj(N);
 int vis[N], tin[N], low[N];
-int n, e, timer, parent_skipped, bridges;
+int n, e, timer, bridges;
 
 void dfs(int u, int p){
     vis[u] = 1;
     //store visited time and low of current node
     tin[u] = low[u] = timer++;
-    parent_skipped = 0;
+    bool parent_skipped = 0;
 
     for(auto v : adj[u]){
         //Handle multiple edges

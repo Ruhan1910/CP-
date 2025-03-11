@@ -5,7 +5,7 @@ void make_set(int v) {
 int find_set(int v) {
     if (v == parent[v])
         return v;
-    return find_set(parent[v]);
+    return parent[v] = find_set(parent[v]);
 }
 
 void union_sets(int a, int b) {

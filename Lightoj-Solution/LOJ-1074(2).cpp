@@ -21,15 +21,15 @@ void dijkstra(int s){
     for(int i = 1; i <= n; i++) dis[i] = INF;
 	dis[s] = 0;
 	priority_queue<pair<ll, ll>, vector<pair<ll, ll>>, greater<pair<ll, ll>>>pq;
-	pq.push({s, 0});
+	pq.push({0, s});
 
 	while(!pq.empty()){
-		auto [u, d] = pq.top(); pq.pop();
+		auto [d, u] = pq.top(); pq.pop();
 		if(d < -1e5) continue;
 		for(auto [v, w] : adj[u]){
 			if(dis[u] + w < dis[v]){ //dis[u] == d
 				dis[v] = dis[u] + w;
-				pq.push({v, dis[v]});
+				pq.push({dis[v], v});
 			}
 		}
 	}

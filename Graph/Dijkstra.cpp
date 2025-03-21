@@ -10,16 +10,15 @@ int INF = 1e9;
 
 void dijkstra(int s){
 	dis[s] = 0;
-	priority_queue<pair<int, int>>pq;
+	priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>>pq;
 	pq.push({s, 0});
 	
 	while(!pq.empty()){
 		auto [u, d] = pq.top(); pq.pop();
-		d = -d;
 		for(auto [v, w] : adj[u]){
 			if(dis[u] + w < dis[v]){ //dis[u] == d
 				dis[v] = dis[u] + w;
-				pq.push({v, -dis[v]});
+				pq.push({v, dis[v]});
 			}
 		}
 	}

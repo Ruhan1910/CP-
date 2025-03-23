@@ -26,6 +26,8 @@ void make_permutation(int ind, vector<int>arr, vector<vector<int>> &ans){
 vector<vector<int>> find_permutation(vector<int>arr){
     vector<vector<int>>ret;
     make_permutation(0, arr, ret);
+
+    //For printing lexicographically shortest permutation
     sort(ret.begin(), ret.end());
 
     return ret;

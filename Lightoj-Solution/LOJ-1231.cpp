@@ -24,9 +24,12 @@ int dpkoro(int ind, int x){
         if(x == k) return 1;
         return 0;
     }
-    //This two base case will faster the code. But not much. Optional
-    //if(x == k) return 1;
-    //if(x > k) return 0;
+    //These two base cases will speed up the code. If we don't want to use them we will need to declare
+    //the size of dp as dp[50][100000] (100 * 20 * 50 = 10000). In that case, we will get TLE because
+    //there are 100 tc so total Time complexity = 1e5 * 50 * 100 = 5e8
+    //If we use this two line then x will never cross 1000 so dp[50][1000] will be perfectly work
+    if(x == k) return 1;
+    if(x > k) return 0;
 
     if(dp[ind][x] != -1) return dp[ind][x];
 

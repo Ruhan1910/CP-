@@ -1,0 +1,19 @@
+vector<vector<ll>> matmul(vector<vector<ll>> &a, vector<vector<ll>> &b){
+    int r1 = a.size();
+    int c1 = a[0].size();
+    int r2 = b.size();
+    int c2 = b[0].size();
+
+    vector<vector<ll>> res(r1, vector<ll> (c2, 0));
+
+    for(int i = 0; i < r1; i++){
+        for(int j = 0; j < c2; j++){
+            for(int k = 0; k < r2; k++){ //k < c1 / r2
+                res[i][j] += (a[i][k] * b[k][j]) % mod;
+                res[i][j] %= mod;
+            }
+        }
+    }
+
+    return res;
+}

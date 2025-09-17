@@ -1,3 +1,5 @@
+//Time complexity O(n + e)
+
 vector<vector<int>>graph;
 bool vis[100];
 int n,e;

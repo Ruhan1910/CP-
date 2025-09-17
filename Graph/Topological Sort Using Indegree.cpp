@@ -1,3 +1,4 @@
+//Time complexity O(n * n)
 vector<int>graph[105];
 bool taken[105];
 int n,e;

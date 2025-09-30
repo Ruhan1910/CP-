@@ -1,18 +1,23 @@
-int orinetation(pii a, pii b, pii c){ //pii means pair<int, int>
-    int val = (b.sc - a.sc) * (c.fi - b.fi) - (b.fi - a.fi) * (c.sc - b.sc);
+
+struct Point{
+    ll x, y;
+};
+
+int orinetation(Point a, Point b, Point c){ //pii means pair<int, int>
+    int val = (b.y - a.y) * (c.x - b.x) - (b.x - a.x) * (c.y - b.y);
 
     if(val == 0) return 0; //collinear
     if(val > 0) return 1; //clockwise
     else return 2; //counterClockwise
 }
 
-bool onSegment(pii a, pii b, pii c){
-    if((c.fi < min(a.fi, b.fi)) || (c.fi > max(a.fi, b.fi))) return false;
-    if((c.sc < min(a.sc, b.sc)) || (c.sc > max(a.sc, b.sc))) return false;
+bool onSegment(Point a, Point b, Point c){
+    if((c.x < min(a.x, b.x)) || (c.x > max(a.x, b.x))) return false;
+    if((c.y < min(a.y, b.y)) || (c.y > max(a.y, b.y))) return false;
     return true;
 }
 
-bool Intersect(pii a, pii b, pii x, pii y){
+bool Intersect(Point a, Point b, Point x, Point y){
     int o1 = orinetation(a, b, x);
     int o2 = orinetation(a, b, y);
     int o3 = orinetation(x, y, a);

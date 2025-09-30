@@ -3,7 +3,7 @@ struct Point{
     ll x, y;
 };
 
-int orinetation(Point a, Point b, Point c){ //pii means pair<int, int>
+int orientation(Point a, Point b, Point c){ //pii means pair<int, int>
     int val = (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
 
     if(val == 0) return 0; //collinear
@@ -18,10 +18,10 @@ bool onSegment(Point a, Point b, Point c){
 }
 
 bool Intersect(Point a, Point b, Point x, Point y){
-    int o1 = orinetation(a, b, x);
-    int o2 = orinetation(a, b, y);
-    int o3 = orinetation(x, y, a);
-    int o4 = orinetation(x, y, b);
+    int o1 = orientation(a, b, x);
+    int o2 = orientation(a, b, y);
+    int o3 = orientation(x, y, a);
+    int o4 = orientation(x, y, b);
 
     if(o1 != o2 && o3 != o4) return true;
 

@@ -4,7 +4,7 @@ struct Point{
 };
 
 int orientation(Point a, Point b, Point c){ //pii means pair<int, int>
-    ll val = (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
+    ll val = (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x); // cross product of ab and bc vector
 
     if(val == 0) return 0; //collinear
     if(val < 0) return 1; //clockwise

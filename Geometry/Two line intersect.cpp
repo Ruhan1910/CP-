@@ -4,7 +4,7 @@ struct Point{
 };
 
 int orinetation(Point a, Point b, Point c){ //pii means pair<int, int>
-    int val = (b.y - a.y) * (c.x - b.x) - (b.x - a.x) * (c.y - b.y);
+    int val = (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
 
     if(val == 0) return 0; //collinear
     if(val > 0) return 1; //clockwise

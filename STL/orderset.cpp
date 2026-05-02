@@ -10,6 +10,9 @@ using    namespace std;
 typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
 template <typename T> using ordered_set = tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update> // multiset hisebe use korte cile
 
+//Multiset
+template<class T> using ordered_set = tree<T, null_type, std::less_equal<T>, rb_tree_tag, tree_order_statistics_node_update>;
+
 /// multiset hisebe use korte///
 //typedef tree<
 //pair<int, int>,

@@ -12,6 +12,9 @@ template <typename T> using ordered_set = tree<T, null_type, less<T>, rb_tree_ta
 
 //Multiset
 template<class T> using ordered_set = tree<T, null_type, std::less_equal<T>, rb_tree_tag, tree_order_statistics_node_update>;
+//declare
+ordered_set<int> os;
+
 
 /// multiset hisebe use korte///
 //typedef tree<

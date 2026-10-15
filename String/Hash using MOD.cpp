@@ -26,11 +26,11 @@ void hash_koro(string &S){
 
     LH[0] = 0;
     for(int i = 1; i <= sz; i++){
-        LH[i] = ((FH[i - 1] * bs) % MOD + (S[i - 1] - 'a' + 1)) % MOD;
+        LH[i] = ((FH[i - 1] * bs) % MOD + ((unsigned char)S[i - 1] + 1)) % MOD;
     }
 
     RH[sz + 1] = 0;
     for(int i = sz; i >= 1; i--){
-        RH[i] = ((RH[i + 1] * bs) % MOD + (S[i - 1] - 'a' + 1)) % MOD;
+        RH[i] = ((RH[i + 1] * bs) % MOD + ((unsigned char)S[i - 1] + 1)) % MOD;
     }
 }
